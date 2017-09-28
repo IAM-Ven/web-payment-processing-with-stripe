@@ -11,6 +11,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" />
 <script src="https://js.stripe.com/v2/"></script>
 <script src="https://js.stripe.com/v3/"></script>
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
 </head>
 <body>
 	<div class="container" style="margin-bottom: 30px;">
@@ -196,28 +197,39 @@
 				<form action="/stripe/multiplanSubscribe" method="post">
 					<button class="btn btn-primary">Submit Subscription</button>
 				</form>
-				
+
 				<br /> <br />
 				<h3>Discounted Subscription</h3>
 				<span th:if="${discountedSubscriptionSuccess}"><h3
-						class="bg-info">Discounted Subscription Created
-						Successful!</h3></span>
+						class="bg-info">Discounted Subscription Created Successful!</h3></span>
 				<form action="/stripe/discountSubscribe" method="post">
 					<button class="btn btn-info">Submit Subscription</button>
 				</form>
-				
+
 				<br /> <br />
 				<h3>Trial Subscription</h3>
-				<span th:if="${trialSubscriptionSuccess}"><h3
-						class="bg-info">Trail Subscription Created
-						Successful!</h3></span>
+				<span th:if="${trialSubscriptionSuccess}"><h3 class="bg-info">Trail
+						Subscription Created Successful!</h3></span>
 				<form action="/stripe/trialSubscribe" method="post">
 					<button class="btn btn-info">Submit Subscription</button>
 				</form>
+
+				<br /> <br />
+				<h3>Paypal Payment Testing</h3>
+				<span id="payment-success" style="display: none;"><h3
+						class="bg-success" style="color: lightgreen">Thank you for
+						your payment. Your order is being processed.</h3></span>
+						<br /> <br /><br /> <br />
+				<div id="paypal-button"></div>
 			</div>
 		</div>
 	</div>
+
+
+
+	
 	<script src="/stripe.js"></script>
+	<script src="/paypal.js"></script>
 	<script src="/main.js"></script>
 </body>
 </html>
