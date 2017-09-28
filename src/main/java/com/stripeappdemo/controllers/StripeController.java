@@ -220,4 +220,32 @@ public class StripeController {
 
 		return "forward:/stripe/";
 	}
+	
+	@RequestMapping(value = "/multiplanSubscribe", method = RequestMethod.POST)
+	public String multiplanSubscribe(Model model) throws AuthenticationException, InvalidRequestException,
+			APIConnectionException, CardException, APIException {
+		// Set your secret key: remember to change this to your live secret key in production
+		// See your keys here: https://dashboard.stripe.com/account/apikeys
+		Stripe.apiKey = "sk_test_p5VUQTAeJjAbqQb6qZJBQDqu";
+
+		Map<String, Object> itemA = new HashMap<String, Object>();
+		itemA.put("plan", "basic-monthly");
+
+		Map<String, Object> itemB = new HashMap<String, Object>();
+		itemB.put("plan", "additional-license");
+		itemB.put("quantity", 2);
+
+		Map<String, Object> items = new HashMap<String, Object>();
+		items.put("0", itemA);
+		items.put("1", itemB);
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("customer", "cus_AQT83NNBQ3h5gP");
+		params.put("items", items);
+		Subscription.create(params);
+		
+		model.addAttribute("multiplePlanSubscriptionSuccess", true);
+
+		return "forward:/stripe/";
+	}
 }
