@@ -111,15 +111,15 @@ public class StripeController {
 
 		// Charge the user's card:
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("amount", 1000);
+		params.put("amount", 100000);
 		params.put("currency", "usd");
-		params.put("description", "Example charge");
+		params.put("description", "Stripe App Demo Charge");
 		params.put("source", token);
 
 		Charge charge = Charge.create(params);
 
 		model.addAttribute("checkoutPaySuccess", true);
 
-		return "redirect:/stripe/";
+		return "forward:/stripe/";
 	}
 }
