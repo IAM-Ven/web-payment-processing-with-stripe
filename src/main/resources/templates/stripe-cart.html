@@ -137,6 +137,15 @@
 
 					<button>Submit Payment</button>
 				</form>
+				
+				<br />
+				<br />
+				<h3>Payment Order</h3>
+				<span th:if="${paymentOrderCreated}"><h3 class="bg-info">Payment Created
+						Successful!</h3></span>
+				<form action="/stripe/paymentOrderPay" method="post">
+					<button class="btn btn-primary">Submit Order</button>
+				</form>
 			</div>
 		</div>
 	</div>

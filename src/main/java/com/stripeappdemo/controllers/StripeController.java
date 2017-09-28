@@ -2,6 +2,7 @@ package com.stripeappdemo.controllers;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import com.stripe.exception.CardException;
 import com.stripe.exception.InvalidRequestException;
 import com.stripe.model.Charge;
 import com.stripe.model.Customer;
+import com.stripe.model.Order;
 import com.stripeappdemo.models.CartItem;
 import com.stripeappdemo.models.Product;
 import com.stripeappdemo.repository.CartItemRepository;
@@ -158,6 +160,40 @@ public class StripeController {
 //		Charge charge = Charge.create(chargeParams);
 		
 		model.addAttribute("elementsPaySuccess", true);
+		return "forward:/stripe/";
+	}
+	
+	@RequestMapping(value = "/paymentOrderPay", method = RequestMethod.POST)
+	public String paymentOrderPay(Model model) throws AuthenticationException,
+			InvalidRequestException, APIConnectionException, CardException, APIException {
+		// Set your secret key: remember to change this to your live secret key in production
+		// See your keys here: https://dashboard.stripe.com/account/apikeys
+		Stripe.apiKey = "sk_test_p5VUQTAeJjAbqQb6qZJBQDqu";
+
+		Map<String, Object> orderParams = new HashMap<String, Object>();
+		orderParams.put("currency", "usd");
+		orderParams.put("email", "jenny@example.com");
+		List<Object> itemsParams = new LinkedList<Object>();
+		Map<String, String> item1 = new HashMap<String, String>();
+		item1.put("type", "sku");
+		item1.put("parent", "sku_ARefVL8oP2AMQx");
+		item1.put("quantity", "2");
+		itemsParams.add(item1);
+		orderParams.put("items", itemsParams);
+		Map<String, Object> shippingParams = new HashMap<String, Object>();
+		shippingParams.put("name", "Jenny Rosen");
+		Map<String, Object> addressParams = new HashMap<String, Object>();
+		addressParams.put("line1", "1234 Main Street");
+		addressParams.put("city", "Anytown");
+		addressParams.put("country", "US");
+		addressParams.put("postal_code", "123456");
+		shippingParams.put("address", addressParams);
+		orderParams.put("shipping", shippingParams);
+
+		Order order = Order.create(orderParams, null);
+		
+		model.addAttribute("paymentOrderCreated", true);
+		
 		return "forward:/stripe/";
 	}
 }
