@@ -196,6 +196,15 @@
 				<form action="/stripe/multiplanSubscribe" method="post">
 					<button class="btn btn-primary">Submit Subscription</button>
 				</form>
+				
+				<br /> <br />
+				<h3>Discounted Subscription</h3>
+				<span th:if="${discountedSubscriptionSuccess}"><h3
+						class="bg-info">Discounted Subscription Created
+						Successful!</h3></span>
+				<form action="/stripe/discountSubscribe" method="post">
+					<button class="btn btn-info">Submit Subscription</button>
+				</form>
 			</div>
 		</div>
 	</div>
