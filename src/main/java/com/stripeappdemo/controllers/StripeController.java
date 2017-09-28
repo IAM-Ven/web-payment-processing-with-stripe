@@ -1,7 +1,9 @@
 package com.stripeappdemo.controllers;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.stripe.Stripe;
+import com.stripe.exception.APIConnectionException;
+import com.stripe.exception.APIException;
+import com.stripe.exception.AuthenticationException;
+import com.stripe.exception.CardException;
+import com.stripe.exception.InvalidRequestException;
+import com.stripe.model.Charge;
 import com.stripeappdemo.models.CartItem;
 import com.stripeappdemo.models.Product;
 import com.stripeappdemo.repository.CartItemRepository;
@@ -82,10 +91,35 @@ public class StripeController {
 		cartItem.setQty(qty);
 		cartItem.setSubTotal(
 				new BigDecimal(cartItem.getProduct().getPrice() * qty).setScale(2, BigDecimal.ROUND_HALF_UP));
-		
+
 		cartItemRepository.save(cartItem);
-		
+
 		return "redirect:/stripe/";
 	}
 
+	@RequestMapping(value = "/checkoutPay", method = RequestMethod.POST)
+	public String checkoutPay(HttpServletRequest request, Model model) throws AuthenticationException,
+			InvalidRequestException, APIConnectionException, CardException, APIException {
+		// Set your secret key: remember to change this to your live secret key
+		// in production
+		// See your keys here: https://dashboard.stripe.com/account/apikeys
+		Stripe.apiKey = "sk_test_p5VUQTAeJjAbqQb6qZJBQDqu";
+
+		// Token is created using Stripe.js or Checkout!
+		// Get the payment token submitted by the form:
+		String token = request.getParameter("stripeToken");
+
+		// Charge the user's card:
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("amount", 1000);
+		params.put("currency", "usd");
+		params.put("description", "Example charge");
+		params.put("source", token);
+
+		Charge charge = Charge.create(params);
+
+		model.addAttribute("checkoutPaySuccess", true);
+
+		return "redirect:/stripe/";
+	}
 }

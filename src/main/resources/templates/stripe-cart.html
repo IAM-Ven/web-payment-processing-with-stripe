@@ -8,6 +8,8 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" />
+<script src="https://js.stripe.com/v2/"></script>
+<script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
 	<div class="container" style="margin-bottom: 30px;">
@@ -89,19 +91,33 @@
 									class="glyphicon glyphicon-remove"></span> Remove
 							</a></td>
 						</tr>
-						
+
 						<tr>
 							<td></td>
 							<td></td>
 							<td></td>
 							<td><h5>Total</h5></td>
-							<td class="text-right"><h5><strong id="total" th:text="${total}">$1234.12</strong></h5></td>
+							<td class="text-right"><h5>
+									<strong id="total" th:text="${total}">$1234.12</strong>
+								</h5></td>
 						</tr>
 					</tbody>
 				</table>
+
+				<h3>Checkout Payment</h3>
+				<span th:if="${checkoutPaySuccess}"><h3 class="bg-info">Payment Successful!</h3></span>
+				<form action="/stripe/checkoutPay" method="POST">
+					<script src="https://checkout.stripe.com/checkout.js"
+						class="stripe-button" data-key="pk_test_0kmqMXFKamjJDXOoNJ1VHsFV"
+						data-amount="999" data-name="Demo Site" data-description="Widget"
+						data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+						data-locale="auto">
+						
+					</script>
+				</form>
 			</div>
 		</div>
 	</div>
-<script src="/main.js"></script>
+	<script src="/main.js"></script>
 </body>
 </html>
