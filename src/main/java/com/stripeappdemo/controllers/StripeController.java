@@ -24,6 +24,7 @@ import com.stripe.exception.InvalidRequestException;
 import com.stripe.model.Charge;
 import com.stripe.model.Customer;
 import com.stripe.model.Order;
+import com.stripe.model.Subscription;
 import com.stripeappdemo.models.CartItem;
 import com.stripeappdemo.models.Product;
 import com.stripeappdemo.repository.CartItemRepository;
@@ -125,11 +126,12 @@ public class StripeController {
 
 		return "forward:/stripe/";
 	}
-	
+
 	@RequestMapping(value = "/elementsPay", method = RequestMethod.POST)
 	public String elementsPay(HttpServletRequest request, Model model) throws AuthenticationException,
 			InvalidRequestException, APIConnectionException, CardException, APIException {
-		// Set your secret key: remember to change this to your live secret key in production
+		// Set your secret key: remember to change this to your live secret key
+		// in production
 		// See your keys here: https://dashboard.stripe.com/account/apikeys
 		Stripe.apiKey = "sk_test_p5VUQTAeJjAbqQb6qZJBQDqu";
 
@@ -150,23 +152,26 @@ public class StripeController {
 		chargeParams.put("customer", customer.getId());
 		Charge charge = Charge.create(chargeParams);
 
-		// YOUR CODE: Save the customer ID and other info in a database for later.
+		// YOUR CODE: Save the customer ID and other info in a database for
+		// later.
 
-		// YOUR CODE (LATER): When it's time to charge the customer again, retrieve the customer ID.
-//		Map<String, Object> chargeParams = new HashMap<String, Object>();
-//		chargeParams.put("amount", 1500); // $15.00 this time
-//		chargeParams.put("currency", "usd");
-//		chargeParams.put("customer", customerId);
-//		Charge charge = Charge.create(chargeParams);
-		
+		// YOUR CODE (LATER): When it's time to charge the customer again,
+		// retrieve the customer ID.
+		// Map<String, Object> chargeParams = new HashMap<String, Object>();
+		// chargeParams.put("amount", 1500); // $15.00 this time
+		// chargeParams.put("currency", "usd");
+		// chargeParams.put("customer", customerId);
+		// Charge charge = Charge.create(chargeParams);
+
 		model.addAttribute("elementsPaySuccess", true);
 		return "forward:/stripe/";
 	}
-	
+
 	@RequestMapping(value = "/paymentOrderPay", method = RequestMethod.POST)
-	public String paymentOrderPay(Model model) throws AuthenticationException,
-			InvalidRequestException, APIConnectionException, CardException, APIException {
-		// Set your secret key: remember to change this to your live secret key in production
+	public String paymentOrderPay(Model model) throws AuthenticationException, InvalidRequestException,
+			APIConnectionException, CardException, APIException {
+		// Set your secret key: remember to change this to your live secret key
+		// in production
 		// See your keys here: https://dashboard.stripe.com/account/apikeys
 		Stripe.apiKey = "sk_test_p5VUQTAeJjAbqQb6qZJBQDqu";
 
@@ -191,9 +196,28 @@ public class StripeController {
 		orderParams.put("shipping", shippingParams);
 
 		Order order = Order.create(orderParams, null);
-		
+
 		model.addAttribute("paymentOrderCreated", true);
-		
+
+		return "forward:/stripe/";
+	}
+
+	@RequestMapping(value = "/subscribe", method = RequestMethod.POST)
+	public String subscribe(Model model, @RequestParam double total) throws AuthenticationException, InvalidRequestException,
+			APIConnectionException, CardException, APIException {
+		// Set your secret key: remember to change this to your live secret key
+		// in production
+		// See your keys here: https://dashboard.stripe.com/account/apikeys
+		Stripe.apiKey = "sk_test_p5VUQTAeJjAbqQb6qZJBQDqu";
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("customer", "cus_AcVshbUgn7U45K");
+		params.put("plan", "basic-monthly");
+
+		Subscription subscription = Subscription.create(params);
+
+		model.addAttribute("subscriptionSuccess", true);
+
 		return "forward:/stripe/";
 	}
 }

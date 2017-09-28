@@ -100,7 +100,7 @@ var form = document.getElementById('payment-form-broken');
 form.addEventListener('submit', function(event) {
   event.preventDefault();
 
-  stripe.createToken(card).then(function(result) {
+  stripe.createToken(cardNumber).then(function(result) {
     if (result.error) {
       // Inform the user if there was an error
       var errorElement = document.getElementById('card-errors');

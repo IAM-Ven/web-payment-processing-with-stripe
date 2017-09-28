@@ -150,6 +150,8 @@
 				<br />
 				<br />
 				<h3>Basic Subscription</h3>
+				<span th:if="${subscriptionSuccess}"><h3 class="bg-info">Subscription Created
+						Successful!</h3></span>
 				<form action="/stripe/subscribe" method="post" id="payment-form-broken">
 					<div class="form-row">
 						<input hidden="hidden" name="total" th:value="${total}" />
