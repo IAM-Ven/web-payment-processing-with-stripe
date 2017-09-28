@@ -6,6 +6,7 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" />
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/main.css" />
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" />
 <script src="https://js.stripe.com/v2/"></script>
@@ -105,19 +106,41 @@
 				</table>
 
 				<h3>Checkout Payment</h3>
-				<span th:if="${checkoutPaySuccess}"><h3 class="bg-info">Payment Successful!</h3></span>
+				<span th:if="${checkoutPaySuccess}"><h3 class="bg-info">Payment
+						Successful!</h3></span>
 				<form action="/stripe/checkoutPay" method="POST">
 					<script src="https://checkout.stripe.com/checkout.js"
 						class="stripe-button" data-key="pk_test_0kmqMXFKamjJDXOoNJ1VHsFV"
-						data-amount="100000" data-name="Stripe App Demo Charge" data-description="Stripe App Demo Charge"
+						data-amount="100000" data-name="Stripe App Demo Charge"
+						data-description="Stripe App Demo Charge"
 						data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
 						data-locale="auto">
 						
 					</script>
 				</form>
+
+				<br />
+				<br />
+				<h3>Elements Payment</h3>
+				<span th:if="${elementsPaySuccess}"><h3 class="bg-info">Payment
+						Successful!</h3></span>
+				<form action="/stripe/elementsPay" method="post" id="payment-form">
+					<div class="form-row">
+						<label for="card-element"> Credit or debit card </label>
+						<div id="card-element">
+							<!-- a Stripe Element will be inserted here. -->
+						</div>
+
+						<!-- Used to display Element errors -->
+						<div id="card-errors"></div>
+					</div>
+
+					<button>Submit Payment</button>
+				</form>
 			</div>
 		</div>
 	</div>
+	<script src="/stripe.js"></script>
 	<script src="/main.js"></script>
 </body>
 </html>

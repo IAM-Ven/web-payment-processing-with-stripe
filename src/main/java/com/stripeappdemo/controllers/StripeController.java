@@ -21,6 +21,7 @@ import com.stripe.exception.AuthenticationException;
 import com.stripe.exception.CardException;
 import com.stripe.exception.InvalidRequestException;
 import com.stripe.model.Charge;
+import com.stripe.model.Customer;
 import com.stripeappdemo.models.CartItem;
 import com.stripeappdemo.models.Product;
 import com.stripeappdemo.repository.CartItemRepository;
@@ -120,6 +121,43 @@ public class StripeController {
 
 		model.addAttribute("checkoutPaySuccess", true);
 
+		return "forward:/stripe/";
+	}
+	
+	@RequestMapping(value = "/elementsPay", method = RequestMethod.POST)
+	public String elementsPay(HttpServletRequest request, Model model) throws AuthenticationException,
+			InvalidRequestException, APIConnectionException, CardException, APIException {
+		// Set your secret key: remember to change this to your live secret key in production
+		// See your keys here: https://dashboard.stripe.com/account/apikeys
+		Stripe.apiKey = "sk_test_p5VUQTAeJjAbqQb6qZJBQDqu";
+
+		// Token is created using Stripe.js or Checkout!
+		// Get the payment token submitted by the form:
+		String token = request.getParameter("stripeToken");
+
+		// Create a Customer:
+		Map<String, Object> customerParams = new HashMap<String, Object>();
+		customerParams.put("email", "testcustomer@example.com");
+		customerParams.put("source", token);
+		Customer customer = Customer.create(customerParams);
+
+		// Charge the Customer instead of the card:
+		Map<String, Object> chargeParams = new HashMap<String, Object>();
+		chargeParams.put("amount", 1000);
+		chargeParams.put("currency", "usd");
+		chargeParams.put("customer", customer.getId());
+		Charge charge = Charge.create(chargeParams);
+
+		// YOUR CODE: Save the customer ID and other info in a database for later.
+
+		// YOUR CODE (LATER): When it's time to charge the customer again, retrieve the customer ID.
+//		Map<String, Object> chargeParams = new HashMap<String, Object>();
+//		chargeParams.put("amount", 1500); // $15.00 this time
+//		chargeParams.put("currency", "usd");
+//		chargeParams.put("customer", customerId);
+//		Charge charge = Charge.create(chargeParams);
+		
+		model.addAttribute("elementsPaySuccess", true);
 		return "forward:/stripe/";
 	}
 }
