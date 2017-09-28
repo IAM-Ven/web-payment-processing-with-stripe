@@ -2,9 +2,47 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title>Insert title here</title>
+<title>Stripe App Demo</title>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" />
 </head>
 <body>
-<h1>Test</h1>
+	<div class="container" style="margin-bottom: 30px;">
+		<div class="text-center">
+			<h2 style="margin-top: 30px; margin-bottom: 30px;">Stripe App
+				Demo</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 col-md-10 col-md-offset-1">
+				<table class="table table-bordered table-hover table-condensed" style="margin-bottom:30px;">
+					<thead>
+						<tr>
+							<th>Product Name</th>
+							<th>Image</th>
+							<th>Product Description</th>
+							<th>Price</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="prod : ${productList}">
+							<td th:text="${prod.name}"></td>
+							<td><img class="img-responsive" style="width: 200px;"
+								th:src="'/'+${prod.name}+'.png'" /></td>
+							<td th:text="${prod.description}"></td>
+							<td th:text="${#numbers.formatDecimal(prod.price, 1, 2)}"></td>
+							<td><a th:href="@{/stripe/addToCart(id=${prod.id})}"
+								class="btn btn-sm btn-primary">Add to Cart</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
 </body>
 </html>
