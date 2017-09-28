@@ -146,6 +146,55 @@
 				<form action="/stripe/paymentOrderPay" method="post">
 					<button class="btn btn-primary">Submit Order</button>
 				</form>
+				
+				<br />
+				<br />
+				<h3>Basic Subscription</h3>
+				<form action="/stripe/subscribe" method="post" id="payment-form-broken">
+					<div class="form-row">
+						<input hidden="hidden" name="total" th:value="${total}" />
+						
+						<div class="form-group">
+							<label for="cardNumber">
+								Card Number
+							</label>
+							<div id="cardNumber" class="form-control">
+								<!-- a stripe element will be inserted here  -->
+							</div>
+							<div id="cardNumber-errors"></div>
+						</div>
+						
+						<div class="form-group">
+							<label for="cardExpiry">
+								Expiry
+							</label>
+							<div id="cardExpiry" class="form-control">
+								<!-- a stripe element will be inserted here  -->
+							</div>
+							<div id="cardExpiry-errors"></div>
+						</div>
+						<div class="form-group">
+							<label for="cardCvc">
+								CVC
+							</label>
+							<div id="cardCvc" class="form-control">
+								<!-- a stripe element will be inserted here  -->
+							</div>
+							<div id="cardCvc-errors"></div>
+						</div>
+						<div class="form-group">
+							<label for="postalCode">
+								Zip/Postal Code
+							</label>
+							<div id="postalCode" class="form-control">
+								<!-- a stripe element will be inserted here  -->
+							</div>
+							<div id="postalCode-errors"></div>
+						</div>
+					</div>
+					
+					<button class="btn btn-primary btn-block">Subscribe</button>
+				</form>
 			</div>
 		</div>
 	</div>
