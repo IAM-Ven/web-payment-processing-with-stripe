@@ -267,4 +267,23 @@ public class StripeController {
 
 		return "forward:/stripe/";
 	}
+	
+	@RequestMapping(value = "/trialSubscribe", method = RequestMethod.POST)
+	public String trialSubscribe(Model model) throws AuthenticationException, InvalidRequestException,
+			APIConnectionException, CardException, APIException {
+		// Set your secret key: remember to change this to your live secret key in production
+		// See your keys here: https://dashboard.stripe.com/account/apikeys
+		Stripe.apiKey = "sk_test_p5VUQTAeJjAbqQb6qZJBQDqu";
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("customer", "cus_ARYQClbrDAPOJ3");
+		params.put("plan", "basic-monthly");
+		params.put("trial_period_days", 10);
+
+		Subscription subscription = Subscription.create(params);
+		
+		model.addAttribute("trialSubscriptionSuccess", true);
+
+		return "forward:/stripe/";
+	}
 }

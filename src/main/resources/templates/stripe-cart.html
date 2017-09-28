@@ -205,6 +205,15 @@
 				<form action="/stripe/discountSubscribe" method="post">
 					<button class="btn btn-info">Submit Subscription</button>
 				</form>
+				
+				<br /> <br />
+				<h3>Trial Subscription</h3>
+				<span th:if="${trialSubscriptionSuccess}"><h3
+						class="bg-info">Trail Subscription Created
+						Successful!</h3></span>
+				<form action="/stripe/trialSubscribe" method="post">
+					<button class="btn btn-info">Submit Subscription</button>
+				</form>
 			</div>
 		</div>
 	</div>
